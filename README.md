@@ -224,8 +224,9 @@
 > `<key-type>`: 캐싱할 값의 키  
 > `<value-type>`: 캐싱할 값, 단 캐싱을 위해서는 해당 클래스에 `Serializable` 이 구현되어 있어야함.  
 > `<expiry>`: 캐시의 유효 기간  
-> `<resources>`: TODO
-> `<offheap>`: TODO
+> `<resources>`: 캐시 데이터의 저장 공간과 용량을 지정한다. 만약 힙 메모리만 사용한다면 `<heap>` 요소만으로 대체할 수 있다.  
+> `<heap>`: heap은 JVM 힙 메모리에 캐시를 저장하도록 세팅하는 요소. Deprecated 된 것으로 봐서는 앞으로는 off heap 에만 캐시를 저장하려는 듯하다.    
+> `<offheap>`: offheap이란 말 그대로 힙 메모리를 벗어난 메모리로 Java GC에 의해 데이터가 정리되지 않는 공간입니다.  
 
 ### application.yml
 > ```yaml
@@ -238,3 +239,4 @@
 ### 참조사이트
 > [Spring 로컬 캐시 라이브러리 ehcache](https://medium.com/finda-tech/spring-로컬-캐시-라이브러리-ehcache-4b5cba8697e0)    
 > [ehcache 공식 사이트](https://www.ehcache.org)  
+> [Spring - Ehcache](https://backtony.github.io/spring/2022-06-14-spring-ehcache/)
