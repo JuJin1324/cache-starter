@@ -119,9 +119,20 @@
 ### Cacheable
 > 캐시가 사용되어야할 필요가 있는 조회 서비스의 메서드에 `@Cacheable` 애노테이션을 붙인다.  
 > ```java
+> @Service
+> @RequiredArgsConstructor
+> public class RetrieveCachedUserService {
+>     private final UserRepository userRepository;
 > 
+>     @Cacheable(value = "user", key = "#username")
+>     public User retrieve(String username) {
+>         return userRepository.findByUsername(username);
+>     }
+> }
 > ```
+> value: ehcache.xml 에서 cache 태그의 alias 값.  
+> key: Java 메서드에서 사용하는 변수 값(ehcache.xml 의 cache 태그 아래 key-type 태그의 설정 값과 변수 타입이 같아야함.), 앞에 # 붙여야함.  
 
 ### 참조사이트
-> [Spring 로컬 캐시 라이브러리 ehcache](https://medium.com/finda-tech/spring-로컬-캐시-라이브러리-ehcache-4b5cba8697e0)  
-> 
+> [Spring 로컬 캐시 라이브러리 ehcache](https://medium.com/finda-tech/spring-로컬-캐시-라이브러리-ehcache-4b5cba8697e0)    
+> [ehcache 공식 사이트](https://www.ehcache.org)  
