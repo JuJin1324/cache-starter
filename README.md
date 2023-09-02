@@ -89,7 +89,7 @@
 > **<cache> 태그**  
 > alias: 캐시를 적용할 `@Cacheable` 애노테이션에서 value 로 들어갈 별칭    
 > `<key-type>`: 캐싱할 값의 키  
-> `<value-type>`: 캐싱할 값  
+> `<value-type>`: 캐싱할 값, 단 캐싱을 위해서는 해당 클래스에 `Serializable` 이 구현되어 있어야함.  
 > `<expiry>`: 캐시의 유효 기간  
 > `<resources>`: TODO
 > `<offheap>`: TODO
