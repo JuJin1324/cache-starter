@@ -16,6 +16,10 @@ public class RetrieveUserService {
     private final UserRepository userRepository;
 
     public User retrieve(String username) {
+        return userRepository.findByUsernameNotCached(username);
+    }
+
+    public User retrieveCached(String username) {
         return userRepository.findByUsername(username);
     }
 }
