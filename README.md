@@ -44,7 +44,8 @@
 ## Spring Cache
 ### 개요
 > Spring은 일부 데이터를 미리 메모리 저장소에 저장하고 저장된 데이터를 다시 읽어 사용하는 캐시 기능을 제공한다. 
-> 트랜잭션과 마찬가지로 AOP를 사용하여 캐시 기능을 구현하였고, 캐시 애너테이션을 사용하면 쉽게 구현할 수 있다. Spring에서 캐시 데이터를 관리하는 기능은 별도의 캐시 프레임워크에 위임한다.  
+> 트랜잭션과 마찬가지로 AOP를 사용하여 캐시 기능을 구현하였고, 캐시 애너테이션을 사용하면 쉽게 구현할 수 있다. 
+> Spring에서 캐시 데이터를 관리하는 기능은 별도의 캐시 프레임워크에 위임한다.  
 > 
 > 캐시 저장소를 구성하는 방식은 두 가지로 구분된다.  
 > * Java 애플리케이션에 embedded하는 방식(로컬 캐시)
@@ -240,3 +241,47 @@
 > [Spring 로컬 캐시 라이브러리 ehcache](https://medium.com/finda-tech/spring-로컬-캐시-라이브러리-ehcache-4b5cba8697e0)    
 > [ehcache 공식 사이트](https://www.ehcache.org)  
 > [Spring - Ehcache](https://backtony.github.io/spring/2022-06-14-spring-ehcache/)
+
+---
+
+## Redis Cache
+### Dependencies
+> ```groovy
+> dependencies {
+>     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+>     implementation 'org.springframework.boot:spring-boot-starter-cache'
+> }
+> ```
+
+### application.yml
+> ```yaml
+> spring:
+>     cache:
+>         type: redis
+>     redis:
+>         host: localhost
+>         port: 6379
+> ```
+
+### Configuration.java
+> ```java
+> @Configuration
+> @EnableCaching
+> public class CacheConfig {
+> 
+>     @Bean
+>     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+>         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+>             .entryTtl(Duration.ofHours(1)) // 캐시 만료 시간 설정
+>             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+>             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+>             .disableCachingNullValues();
+> 
+>         return RedisCacheManager.builder(redisConnectionFactory)
+>             .cacheDefaults(cacheConfiguration)
+>             .build();
+>     }
+> }
+> ```
+
+---
